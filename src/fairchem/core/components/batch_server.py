@@ -453,7 +453,8 @@ class MultiplexedBatchPredictServer(BatchPredictServerMixin):
         return True
 
     @serve.batch(
-        batch_size_fn=lambda batch: sum(sample.natoms.sum() for sample in batch).item()
+        batch_size_fn=lambda batch: sum(sample.natoms.sum() for sample in batch).item(),
+        max_concurrent_batches=1,
     )
     async def predict(
         self,
